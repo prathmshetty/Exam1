@@ -234,36 +234,33 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        function addItem() {
-            var itemCode = document.getElementById("itemCode").value;
-            var itemName = document.getElementById("itemName").value;
-            var quantity = document.getElementById("quantity").value;
-            var pricePerPiece = document.getElementById("pricePerPiece").value;
-            var manufacturedDate = document.getElementById("manufacturedDate").value;
-            var expiryDate = document.getElementById("expiryDate").value;
+      function addItem() {
+    var itemCode = document.getElementById("itemCode").value;
+    var itemName = document.getElementById("itemName").value;
+    var quantity = document.getElementById("quantity").value;
+    var pricePerPiece = document.getElementById("pricePerPiece").value;
+    var manufacturedDate = document.getElementById("manufacturedDate").value;
+    var expiryDate = document.getElementById("expiryDate").value;
 
-            if (itemCode !== "" && itemName !== "" && quantity !== "" && pricePerPiece !== "" && manufacturedDate !== "" && expiryDate !== "") {
-                var newItem = {
-                    itemCode: itemCode,
-                    itemName: itemName,
-                    quantity: quantity,
-                    pricePerPiece: pricePerPiece,
-                    manufacturedDate: manufacturedDate,
-                    expiryDate: expiryDate
-                };
+    if (itemCode !== "" && itemName !== "" && quantity !== "" && pricePerPiece !== "" && manufacturedDate !== "" && expiryDate !== "") {
+        var newItem = {
+            itemCode: itemCode,
+            itemName: itemName,
+            quantity: quantity,
+            pricePerPiece: pricePerPiece,
+            manufacturedDate: manufacturedDate,
+            expiryDate: expiryDate
+        };
 
-                var inventoryItems = JSON.parse(localStorage.getItem("inventoryItems")) || [];
-                inventoryItems.push(newItem);
-                localStorage.setItem("inventoryItems", JSON.stringify(inventoryItems));
-                window.location.href = "inventory.html";
-            } else {
-                alert("Please fill in all fields.");
-            }
-        }
-
-        function redirectToInventoryPage() {
-            window.location.href = "inventory.html";
-        }
-    </script>
+        var inventoryItems = JSON.parse(localStorage.getItem("inventoryItems")) || [];
+        inventoryItems.push(newItem);
+        localStorage.setItem("inventoryItems", JSON.stringify(inventoryItems));
+        alert("Item added successfully."); 
+        window.location.href = "inventory.html";
+    } else {
+        alert("Please fill in all fields.");
+    }
+}
+</script>
 </body>
 </html>
