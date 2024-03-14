@@ -148,9 +148,27 @@
             display: block;
         }
 
-        @media (max-width: 600px) {
-            .modal-content {
-                width: 90%;
+        @media (max-width: 768px) {
+            .content {
+                padding: 10px;
+            }
+
+            .dashboard-box {
+                margin: 10px;
+            }
+
+            .dashboard-box .create-btn,
+            .dashboard-box .items-btn {
+                top: auto;
+                bottom: 10px;
+            }
+
+            .dashboard-box .create-btn {
+                right: 20px;
+            }
+
+            .dashboard-box .items-btn {
+                right: 100px;
             }
         }
 
@@ -234,33 +252,37 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-      function addItem() {
-    var itemCode = document.getElementById("itemCode").value;
-    var itemName = document.getElementById("itemName").value;
-    var quantity = document.getElementById("quantity").value;
-    var pricePerPiece = document.getElementById("pricePerPiece").value;
-    var manufacturedDate = document.getElementById("manufacturedDate").value;
-    var expiryDate = document.getElementById("expiryDate").value;
+        function redirectToInventoryPage() {
+            window.location.href = "inventory.html";
+        }
 
-    if (itemCode !== "" && itemName !== "" && quantity !== "" && pricePerPiece !== "" && manufacturedDate !== "" && expiryDate !== "") {
-        var newItem = {
-            itemCode: itemCode,
-            itemName: itemName,
-            quantity: quantity,
-            pricePerPiece: pricePerPiece,
-            manufacturedDate: manufacturedDate,
-            expiryDate: expiryDate
-        };
+        function addItem() {
+            var itemCode = document.getElementById("itemCode").value;
+            var itemName = document.getElementById("itemName").value;
+            var quantity = document.getElementById("quantity").value;
+            var pricePerPiece = document.getElementById("pricePerPiece").value;
+            var manufacturedDate = document.getElementById("manufacturedDate").value;
+            var expiryDate = document.getElementById("expiryDate").value;
 
-        var inventoryItems = JSON.parse(localStorage.getItem("inventoryItems")) || [];
-        inventoryItems.push(newItem);
-        localStorage.setItem("inventoryItems", JSON.stringify(inventoryItems));
-        alert("Item added successfully."); 
-        window.location.href = "inventory.html";
-    } else {
-        alert("Please fill in all fields.");
-    }
-}
-</script>
+            if (itemCode !== "" && itemName !== "" && quantity !== "" && pricePerPiece !== "" && manufacturedDate !== "" && expiryDate !== "") {
+                var newItem = {
+                    itemCode: itemCode,
+                    itemName: itemName,
+                    quantity: quantity,
+                    pricePerPiece: pricePerPiece,
+                    manufacturedDate: manufacturedDate,
+                    expiryDate: expiryDate
+                };
+
+                var inventoryItems = JSON.parse(localStorage.getItem("inventoryItems")) || [];
+                inventoryItems.push(newItem);
+                localStorage.setItem("inventoryItems", JSON.stringify(inventoryItems));
+                alert("Item added successfully."); 
+                window.location.href = "inventory.html";
+            } else {
+                alert("Please fill in all fields.");
+            }
+        }
+    </script>
 </body>
 </html>
