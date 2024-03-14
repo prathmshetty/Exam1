@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url("bg.png") no-repeat;
+            background-size: cover;
+        }
+
+        .header {
+            background-color: #343a40;
+            color: #ffffff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-left: 20px;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .dashboard-box {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            margin: 20px;
+            position: relative;
+        }
+
+        .dashboard-box .create-btn,
+        .dashboard-box .items-btn {
+            position: absolute;
+            top: 48px;
+            background-color: #456286;
+            border: none;
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .dashboard-box .create-btn {
+            right: 140px;
+        }
+
+        .dashboard-box .items-btn {
+            right: 20px;
+        }
+
+        .dashboard-box .create-btn i,
+        .dashboard-box .items-btn i {
+            color: #ffffff;
+            font-size: 18px;
+            margin-right: 5px;
+        }
+
+        .modal-content {
+            background: rgba(0, 0, 0, 0.404);
+            color: #ffffff;
+            border-radius: 20px;
+            padding: 50px 70px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(15px);
+        }
+
+        .modal-header {
+            border-bottom: none;
+            padding: 15px;
+        }
+
+        .modal-body {
+            padding: 15px;
+        }
+
+        .modal-footer {
+            border-top: none;
+            padding: 15px;
+        }
+
+        .input-box {
+            position: relative;
+            width: 100%;
+            height: 35px;
+            margin-bottom: 35px;
+        }
+
+        .input-box input {
+            width: calc(100% - 2px);
+            height: 100%;
+            padding: 25px 25px 25px 50px;
+            font-size: 18px;
+            color: #fff;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 18px;
+            background: transparent;
+            outline: none;
+        }
+
+        .input-box input::placeholder {
+            color: #fff;
+        }
+
+        .input-box i {
+            position: absolute;
+            left: 20px;
+            top: 76%;
+            transform: translateY(-50%);
+            color: #000000bb;
+            font-size: 20px;
+        }
+
+        .btn {
+            background: #456286;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 8px 16px;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #3e5b7c;
+        }
+
+        .modal-footer .btn-primary {
+            margin: 0 auto;
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            .modal-content {
+                width: 90%;
+            }
+        }
+
+        h3 {
+             font-family: Verdana, Geneva, Tahoma, sans-serif;
+             font-weight: bold;
+             font-size: 45px;
+             color: #000000;
+             margin-top:70px;
+             margin-left:20px;
+             white-space: nowrap;
+            }
+
+        p {
+            color: #34495e;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size:20px; 
+            margin-top: 20px;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="dashboard-box">
+                <h2><img src="logo.png" alt="Invento Logo" height="90"></h2>
+                <h3>Inventory Management and Tracking</h3>
+                <p>Ensure precision in managing your store inventory with detailed information on item codes, names, and expiry dates. Stay organized and keep track of your stock effortlessly.</p>
+                <center><h4><img src="m1.jpg" alt="img"></h4></center>
+                <button class="btn create-btn" data-toggle="modal" data-target="#inventoryModal"><i class="fas fa-plus"></i> Create</button>
+                <button class="btn items-btn" onclick="redirectToInventoryPage()"><i class="fas fa-list"></i> Items</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="inventoryModal" tabindex="-1" role="dialog" aria-labelledby="inventoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="inventoryModalLabel">Inventory Management System</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearInputFields()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-box">
+                        <i class="fas fa-barcode"></i>
+                        <input type="text" id="itemCode" placeholder="Item Code" required>
+                    </div>
+                    <div class="input-box">
+                        <i class="fas fa-tag"></i>
+                        <input type="text" id="itemName" placeholder="Item Name" required>
+                    </div>
+                    <div class="input-box">
+                        <i class="fas fa-boxes"></i>
+                        <input type="number" id="quantity" placeholder="Quantity" required>
+                    </div>
+                    <div class="input-box">
+                        <i class="fas fa-dollar-sign"></i>
+                        <input type="number" id="pricePerPiece" placeholder="Price per Piece" required>
+                    </div>
+                    <div class="input-box">
+                        <i class="fas fa-calendar-alt"></i>
+                        <input type="date" id="manufacturedDate" placeholder="Manufactured Date" required>
+                    </div>
+                    <div class="input-box">
+                        <i class="fas fa-calendar-times"></i>
+                        <input type="date" id="expiryDate" placeholder="Expiry Date" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="addItem()">Add Item</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function addItem() {
+            var itemCode = document.getElementById("itemCode").value;
+            var itemName = document.getElementById("itemName").value;
+            var quantity = document.getElementById("quantity").value;
+            var pricePerPiece = document.getElementById("pricePerPiece").value;
+            var manufacturedDate = document.getElementById("manufacturedDate").value;
+            var expiryDate = document.getElementById("expiryDate").value;
+
+            if (itemCode !== "" && itemName !== "" && quantity !== "" && pricePerPiece !== "" && manufacturedDate !== "" && expiryDate !== "") {
+                var newItem = {
+                    itemCode: itemCode,
+                    itemName: itemName,
+                    quantity: quantity,
+                    pricePerPiece: pricePerPiece,
+                    manufacturedDate: manufacturedDate,
+                    expiryDate: expiryDate
+                };
+
+                var inventoryItems = JSON.parse(localStorage.getItem("inventoryItems")) || [];
+                inventoryItems.push(newItem);
+                localStorage.setItem("inventoryItems", JSON.stringify(inventoryItems));
+                window.location.href = "inventory.html";
+            } else {
+                alert("Please fill in all fields.");
+            }
+        }
+
+        function redirectToInventoryPage() {
+            window.location.href = "inventory.html";
+        }
+    </script>
+</body>
+</html>

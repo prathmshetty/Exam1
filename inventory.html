@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url("bg.png") no-repeat;
+            background-size: cover;
+        }
+
+        .container {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .inventory-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .inventory-item {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+
+        .inventory-item p {
+            margin: 10px 0;
+        }
+
+        .inventory-item .btn-group {
+            margin-top: 20px;
+        }
+
+        .inventory-item .btn {
+            margin-right: 10px;
+            cursor: pointer;
+            border-radius: 10px;
+            padding: 5px 10px;
+            font-size: 18px;
+        }
+
+        .inventory-item .btn-primary {
+            background-color: #28a745;
+            border-color: #28a745;
+            color: #fff;
+        }
+
+        .inventory-item .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            color: #fff;
+        }
+
+        .inventory-item .btn:hover {
+            background-color: transparent;
+            color: #000;
+        }
+
+        .inventory-item:hover {
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            transform: translateY(-5px);
+        }
+
+        @media (max-width: 1200px) {
+            .inventory-list {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .inventory-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .inventory-list {
+                grid-template-columns: repeat(1, 1fr);
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        #editItemCode,
+        #editItemName {
+            width: calc(100% - 40px);
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button[type="submit"] {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            width: auto;
+            font-size: 14px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 12px;
+            margin: 10px 0 20px 0;
+            border: none;
+            border-radius: 16px;
+            background-color: rgba(255, 255, 255, 0.8);
+            transition: background-color 0.3s;
+        }
+
+        input[type="text"]:hover {
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            background-color: rgb(38, 106, 231);
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .inventory-list {
+            margin-top: 20px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+        #editForm button[type="submit"] {
+        margin: 0 auto;
+        display: block;
+    }
+
+        button[type="submit"]:focus {
+            outline: none;
+        }
+
+        .back-to-dashboard {
+            background-color: #218838;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .back-to-dashboard:hover {
+            background-color: #1e7e34;
+        }
+
+        .back-to-dashboard i {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Items</h1>
+        <input type="text" id="searchInput" placeholder="Search by Item Name or ID">
+        <button onclick="searchItems()">Search</button>
+        <div id="errorMessage" style="display: none; color: red;"><b>No Items Found</b></div>
+        <div class="inventory-list" id="inventoryList">
+        </div>
+        <a href="index.html" class="back-to-dashboard"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Edit Item</h2>
+            <form id="editForm">
+                <label for="editItemCode">Item Code:</label><br>
+                <input type="text" id="editItemCode" placeholder="Item Code" required><br>
+                <label for="editItemName">Item Name:</label><br>
+                <input type="text" id="editItemName" placeholder="Item Name" required><br>
+                <label for="editQuantity">Quantity:</label><br>
+                <input type="number" id="editQuantity" placeholder="Quantity" required><br>
+                <label for="editPricePerPiece">Price per Piece:</label><br>
+                <input type="number" id="editPricePerPiece" placeholder="Price per Piece" required><br>
+                <label for="editManufacturedDate">Manufactured Date:</label><br>
+                <input type="date" id="editManufacturedDate" placeholder="Manufactured Date" required><br>
+                <label for="editExpiryDate">Expiry Date:</label><br>
+                <input type="date" id="editExpiryDate" placeholder="Expiry Date" required><br>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script>
+        var inventoryItems = JSON.parse(localStorage.getItem("inventoryItems")) || [];
+        var inventoryList = document.getElementById("inventoryList");
+
+        inventoryItems.forEach(function(item, index) {
+            var itemBox = document.createElement("div");
+            itemBox.className = "inventory-item";
+            itemBox.innerHTML = "<p><strong>Item Code:</strong> " + item.itemCode + "</p>" +
+                                "<p><strong>Item Name:</strong> " + item.itemName + "</p>" +
+                                "<p><strong>Quantity:</strong> " + item.quantity + "</p>" +
+                                "<p><strong>Price per Piece:</strong> " + item.pricePerPiece + "</p>" +
+                                "<p><strong>Manufactured Date:</strong> " + item.manufacturedDate + "</p>" +
+                                "<p><strong>Expiry Date:</strong> " + item.expiryDate + "</p>" +
+                                "<div class='btn-group'>" +
+                                "<button class='btn btn-primary' onclick='openEditModal(" + index + ")'>Update</button>" +
+                                "<button class='btn btn-danger' onclick='deleteItem(" + index + ")'>Delete</button>" +
+                                "</div>";
+            inventoryList.appendChild(itemBox);
+        });
+
+        function openEditModal(index) {
+            var item = inventoryItems[index];
+            document.getElementById("editItemCode").value = item.itemCode;
+            document.getElementById("editItemName").value = item.itemName;
+            document.getElementById("editQuantity").value = item.quantity;
+            document.getElementById("editPricePerPiece").value = item.pricePerPiece;
+            document.getElementById("editManufacturedDate").value = item.manufacturedDate;
+            document.getElementById("editExpiryDate").value = item.expiryDate;
+
+            document.getElementById("editForm").onsubmit = function(event) {
+                event.preventDefault();
+                updateItem(index);
+            };
+
+            document.getElementById("editModal").style.display = "block";
+        }
+
+        function updateItem(index) {
+            var newItem = {
+                itemCode: document.getElementById("editItemCode").value,
+                itemName: document.getElementById("editItemName").value,
+                quantity: document.getElementById("editQuantity").value,
+                pricePerPiece: document.getElementById("editPricePerPiece").value,
+                manufacturedDate: document.getElementById("editManufacturedDate").value,
+                expiryDate: document.getElementById("editExpiryDate").value
+            };
+
+            inventoryItems[index] = newItem;
+            localStorage.setItem("inventoryItems", JSON.stringify(inventoryItems));
+            closeModal();
+            location.reload();
+        }
+
+        function deleteItem(index) {
+            inventoryItems.splice(index, 1);
+            localStorage.setItem("inventoryItems", JSON.stringify(inventoryItems));
+            location.reload();
+        }
+
+        function closeModal() {
+            document.getElementById("editModal").style.display = "none";
+        }
+
+        function searchItems() {
+            var searchTerm = document.getElementById("searchInput").value.toLowerCase();
+            var filteredItems = inventoryItems.filter(function(item) {
+                return item.itemName.toLowerCase().includes(searchTerm) || item.itemCode.toLowerCase().includes(searchTerm);
+            });
+
+            inventoryList.innerHTML = "";
+
+            if (filteredItems.length > 0) {
+                filteredItems.forEach(function(item, index) {
+                    var itemBox = document.createElement("div");
+                    itemBox.className = "inventory-item";
+                    itemBox.innerHTML = "<p><strong>Item Code:</strong> " + item.itemCode + "</p>" +
+                                        "<p><strong>Item Name:</strong> " + item.itemName + "</p>" +
+                                        "<p><strong>Quantity:</strong> " + item.quantity + "</p>" +
+                                        "<p><strong>Price per Piece:</strong> " + item.pricePerPiece + "</p>" +
+                                        "<p><strong>Manufactured Date:</strong> " + item.manufacturedDate + "</p>" +
+                                        "<p><strong>Expiry Date:</strong> " + item.expiryDate + "</p>" +
+                                        "<div class='btn-group'>" +
+                                        "<button class='btn btn-primary' onclick='openEditModal(" + index + ")'>Update</button>" +
+                                        "<button class='btn btn-danger' onclick='deleteItem(" + index + ")'>Delete</button>" +
+                                        "</div>";
+                    inventoryList.appendChild(itemBox);
+                });
+                document.getElementById("errorMessage").style.display = "none";
+            } else {
+                document.getElementById("errorMessage").style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
