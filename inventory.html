@@ -20,7 +20,7 @@
 
         .inventory-list {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             justify-content: center;
         }
@@ -35,19 +35,24 @@
         }
 
         .inventory-item p {
-            margin: 10px 0;
+            margin: 5px 0; 
+            font-size: 16px; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
         }
 
         .inventory-item .btn-group {
             margin-top: 20px;
+            text-align: center; 
         }
 
         .inventory-item .btn {
             margin-right: 10px;
             cursor: pointer;
             border-radius: 10px;
-            padding: 5px 10px;
-            font-size: 18px;
+            padding: 8px 15px; 
+            font-size: 16px;
         }
 
         .inventory-item .btn-primary {
@@ -72,19 +77,13 @@
             transform: translateY(-5px);
         }
 
-        @media (max-width: 1200px) {
-            .inventory-list {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 900px) {
+        @media (max-width: 768px) {
             .inventory-list {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 576px) {
             .inventory-list {
                 grid-template-columns: repeat(1, 1fr);
             }
@@ -196,10 +195,11 @@
         button[type="submit"]:hover {
             background-color: #218838;
         }
+
         #editForm button[type="submit"] {
-        margin: 0 auto;
-        display: block;
-    }
+            margin: 0 auto;
+            display: block;
+        }
 
         button[type="submit"]:focus {
             outline: none;
@@ -261,7 +261,6 @@
             </form>
         </div>
     </div>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script>
         var inventoryItems = JSON.parse(localStorage.getItem("inventoryItems")) || [];
@@ -274,8 +273,8 @@
                                 "<p><strong>Item Name:</strong> " + item.itemName + "</p>" +
                                 "<p><strong>Quantity:</strong> " + item.quantity + "</p>" +
                                 "<p><strong>Price per Piece:</strong> " + item.pricePerPiece + "</p>" +
-                                "<p><strong>Manufactured Date:</strong> " + item.manufacturedDate + "</p>" +
-                                "<p><strong>Expiry Date:</strong> " + item.expiryDate + "</p>" +
+                                "<p><strong>M Date:</strong> " + item.manufacturedDate + "</p>" +
+                                "<p><strong>E Date:</strong> " + item.expiryDate + "</p>" +
                                 "<div class='btn-group'>" +
                                 "<button class='btn btn-primary' onclick='openEditModal(" + index + ")'>Update</button>" +
                                 "<button class='btn btn-danger' onclick='deleteItem(" + index + ")'>Delete</button>" +
@@ -342,8 +341,8 @@
                                         "<p><strong>Item Name:</strong> " + item.itemName + "</p>" +
                                         "<p><strong>Quantity:</strong> " + item.quantity + "</p>" +
                                         "<p><strong>Price per Piece:</strong> " + item.pricePerPiece + "</p>" +
-                                        "<p><strong>Manufactured Date:</strong> " + item.manufacturedDate + "</p>" +
-                                        "<p><strong>Expiry Date:</strong> " + item.expiryDate + "</p>" +
+                                        "<p><strong>M Date:</strong> " + item.manufacturedDate + "</p>" +
+                                        "<p><strong>E Date:</strong> " + item.expiryDate + "</p>" +
                                         "<div class='btn-group'>" +
                                         "<button class='btn btn-primary' onclick='openEditModal(" + index + ")'>Update</button>" +
                                         "<button class='btn btn-danger' onclick='deleteItem(" + index + ")'>Delete</button>" +
